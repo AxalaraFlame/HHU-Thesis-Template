@@ -18,7 +18,7 @@
 
 #### 本地使用（推荐）
 
-1. 使用前，请先安装 [fonts](https://github.com/shaneworld/Dots/tree/master/fonts) 中的全部字体。
+1. 使用前，请先安装 [fonts](https://www.alipan.com/s/BEDYwfxKyvG) 中的全部字体。
 
 2. 安装 Typst
 

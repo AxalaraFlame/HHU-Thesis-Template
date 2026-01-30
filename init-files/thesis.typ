@@ -2,7 +2,7 @@
 
 #import "../hhu-thesis/template.typ": bachelor-conf, thanks, appendix, code, hhu-bibliography, translation-bilingual
 
-// 使用前请先安装 `https://github.com/shaneworld/Dots/tree/master/fonts` 中的全部字体
+// 使用前请先安装 `https://www.alipan.com/s/BEDYwfxKyvG` 中的全部字体
 
 #show: doc => bachelor-conf(
   author: (CN: "李华", EN: "Li Hua", ID: "2162510220", YEAR: "2021级"),
@@ -302,19 +302,19 @@ Typst 默认尝试使用数学方式表现，例如 ```typ $I=V / R$``` 会显�
 
 根据要求，河海大学本科毕业论文要求参考文献部分采用 `GB7714-2005`。
 
-#figure(
-  gap: 1.8em,
-  caption: "多变量数据集三个模型训练损失对比",
-  align(center,grid(
-    columns:1,
-    gutter: 0.5em,
-    image("./assets/1.png", width: 94%) + "(a) LTC的训练损失", 
-    [],
-    image("./assets/2.png", width: 86%) + "(b) LSTM的训练损失",
-    [],
-    image("./assets/3.png", width: 90%) + "(c) Transformer的训练损失",
-  ),
-))<4.4>
+// #figure(
+//   gap: 1.8em,
+//   caption: "多变量数据集三个模型训练损失对比",
+//   align(center,grid(
+//     columns:1,
+//     gutter: 0.5em,
+//     image("./assets/2-2a.png", width: 94%) + "(a) LTC的训练损失", 
+//     [],
+//     image("./assets/2-2a.png", width: 86%) + "(b) LSTM的训练损失",
+//     [],
+//     image("./assets/2-2a.png", width: 90%) + "(c) Transformer的训练损失",
+//   ),
+// ))<4.4>
 
 #thanks[
 
