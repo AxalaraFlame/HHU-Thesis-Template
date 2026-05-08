@@ -1,6 +1,8 @@
-// #import "@preview/a2c-nums:0.0.1": int-to-cn-num
-#import "@preview/cuti:0.4.0": show-cn-fakebold, fakebold
+#import "@preview/a2c-nums:0.0.1": int-to-cn-num
+#import "@preview/cuti:0.3.0": show-cn-fakebold, fakebold
 #import "@preview/i-figured:0.2.4"
+
+#let _typst-numbering = numbering
 
 #let zihao = (
   初号: 42pt,
@@ -182,6 +184,97 @@
   eq
   v(-0.8em)
   par()[#text(size:0em)[#h(0em)]]
+}
+
+#let _prepare-equation-dict(it, level, zero-fill, leading-zero, numbering) = {
+  let numbers = counter(heading).at(it.location())
+  while zero-fill and numbers.len() < level {
+    numbers.push(0)
+  }
+  if numbers.len() > level {
+    numbers = numbers.slice(0, level)
+  }
+  if not leading-zero and numbers.at(0, default: none) == 0 {
+    numbers = numbers.slice(1)
+  }
+
+  let dic = it.fields()
+  let _ = if "body" in dic {
+    dic.remove("body")
+  }
+  let _ = if "label" in dic {
+    dic.remove("label")
+  }
+  let _ = if "counter" in dic {
+    dic.remove("counter")
+  }
+  dic + (numbering: n => _typst-numbering(numbering, ..numbers, n))
+}
+
+#let _equation-number-at(it, level, zero-fill, leading-zero, numbering, step: 0) = context {
+  let numbers = counter(heading).at(it.location())
+  while zero-fill and numbers.len() < level {
+    numbers.push(0)
+  }
+  if numbers.len() > level {
+    numbers = numbers.slice(0, level)
+  }
+  if not leading-zero and numbers.at(0, default: none) == 0 {
+    numbers = numbers.slice(1)
+  }
+  _typst-numbering(numbering, ..numbers, counter(math.equation).at(it.location()).first() + step)
+}
+
+// 公式过长时，将可见编号排到下一行右侧，同时保留原生公式计数与引用。
+#let show-equation(
+  it,
+  level: 1,
+  zero-fill: true,
+  leading-zero: true,
+  numbering: "(1.1)",
+  prefix: "eqt:",
+  only-labeled: false,
+  unnumbered-label: "-",
+  number-gap: 0.75em,
+) = {
+  if (
+    it.alt == "hhu-equation-number-wrap"
+    or
+    only-labeled and not it.has("label")
+    or it.has("label") and (
+      str(it.label).starts-with(prefix)
+      or str(it.label) == unnumbered-label
+    )
+    or not it.block
+  ) {
+    it
+  } else {
+    let fields = _prepare-equation-dict(it, level, zero-fill, leading-zero, numbering)
+    let _ = fields.insert("alt", "hhu-equation-number-wrap")
+    context layout(size => {
+      let equation-number = _equation-number-at(it, level, zero-fill, leading-zero, numbering, step: 1)
+      let number-width = measure(equation-number).width
+      let body-width = measure(it.body).width
+      let gap-width = measure(box(width: number-gap)).width
+      let equation = math.equation(it.body, ..fields)
+      let equation-label = label(if it.has("label") {
+        prefix + str(it.label)
+      } else {
+        prefix + "i-figured-no-label"
+      })
+      if body-width + number-width + gap-width > size.width {
+        [
+          #box(width: 0pt, height: 0pt, clip: true)[#equation #equation-label]
+          #block(width: 100%)[
+            #align(center)[#it.body]
+            #align(right)[#equation-number]
+          ]
+        ]
+      } else {
+        [#equation #equation-label]
+      }
+    })
+  }
 }
 
 // 图表后段落自动首行缩进

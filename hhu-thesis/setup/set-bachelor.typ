@@ -1,4 +1,4 @@
-#import "../utils/utils.typ": ziti, zihao, chinese-numbering, show-cn-fakebold, i-figured, show-math-equation, show-figure
+#import "../utils/utils.typ": ziti, zihao, chinese-numbering, show-cn-fakebold, i-figured, show-equation, show-math-equation, show-figure
 #import "../parts/heading-conf.typ": heading-conf
 
 #let set-bachelor(always-new-page: true, doc) = {
@@ -36,7 +36,7 @@
   // 图表caption数字展示方式
   show figure: i-figured.show-figure.with(numbering: "1-1")
   show figure.where(kind: table): i-figured.show-figure.with(numbering: "1.1")
-  show math.equation.where(block: true): i-figured.show-equation
+  show math.equation.where(block: true): show-equation
   set math.equation(number-align: bottom)
   // 公式算作单独段落
   show math.equation.where(block: true): show-math-equation
