@@ -1,5 +1,5 @@
-#import "@preview/a2c-nums:0.0.1": int-to-cn-num
-#import "@preview/cuti:0.3.0": show-cn-fakebold, fakebold
+//#import "@preview/a2c-nums:0.0.1": int-to-cn-num
+#import "@preview/cuti:0.4.0": show-cn-fakebold, fakebold
 #import "@preview/i-figured:0.2.4"
 
 #let _typst-numbering = numbering
